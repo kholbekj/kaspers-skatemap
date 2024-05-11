@@ -12,7 +12,7 @@ console.log(center)
 
 const vectorLayer = new VectorLayer({
   source: new VectorSource({
-    url: "https://kaspers-stakemap-assets.surge.sh/export.geojson",
+    url: "https://raw.githubusercontent.com/kholbekj/skatemap-assets/main/export.geojson",
     format: new GeoJSON()
   }),
   style: {
