@@ -9,6 +9,8 @@ import OSM from 'ol/source/OSM';
 import {Raster as RasterSource, StadiaMaps} from 'ol/source.js';
 import ImageLayer from 'ol/layer/Image';
 
+const cheapMode = true;
+
 const center = fromLonLat([13.402842787646158, 52.47313153940888]);
 
 const stadia = new StadiaMaps({
@@ -26,19 +28,26 @@ const vectorLayer = new VectorLayer({
   }
 });
 
+const layers = cheapMode ? [
+  new TileLayer({
+    source: new OSM()
+  }),
+  vectorLayer
+] : [
+  new TileLayer({
+    source: stadia
+  }),
+  vectorLayer,
+  new TileLayer({
+    source: new StadiaMaps({
+      layer: 'stamen_terrain_labels'
+    })
+  }),
+];
+
 const map = new Map({
   target: 'map',
-  layers: [
-    new TileLayer({
-      source: stadia
-    }),
-    vectorLayer,
-    new TileLayer({
-      source: new StadiaMaps({
-        layer: 'stamen_terrain_labels'
-      })
-    }),
-  ],
+  layers: layers,
   view: new View({
     center: center,
     zoom: 15,
