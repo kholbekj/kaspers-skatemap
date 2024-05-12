@@ -9,8 +9,7 @@ import OSM from 'ol/source/OSM';
 import {Raster as RasterSource, StadiaMaps} from 'ol/source.js';
 import ImageLayer from 'ol/layer/Image';
 
-const center = fromLonLat([13.4078820811102, 52.53529449970289]);
-console.log(center)
+const center = fromLonLat([13.402842787646158, 52.47313153940888]);
 
 const stadia = new StadiaMaps({
   layer: 'stamen_watercolor',
@@ -41,7 +40,7 @@ const map = new Map({
     }),
   ],
   view: new View({
-    center: center, //[52.52, 13.405],
-    zoom: 16
+    center: center,
+    zoom: 15,
   })
 });
