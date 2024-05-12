@@ -1,18 +1,34 @@
-# OpenLayers + Vite
+# Kasper's skatemap
 
-This example demonstrates how the `ol` package can be used with [Vite](https://vitejs.dev/).
+[Check out the Berlin map](https://kaspers-skatemap.surge.sh)
 
-To get started, run the following (requires Node 14+):
+This is a small static js app that combines data from Stadia Maps, Openstreemap, Openlayers and Overpass to create a simple overlayed map that identifies surfaces that would probably be decent to skate on. It does not constitute legal advice on where roller skating is permissible, safe or appropriate - it's essentially a filter for sidewalks, pedestrian streets, crossings and bike lanes which have decent smoothness. This relies on OSM tagging from users, and shouldn't be regarded as fact.
 
-    npx create-ol-app my-app --template vite
+Development server can be run with
 
-Then change into your new `my-app` directory and start a development server (available at http://localhost:5173):
-
-    cd my-app
     npm start
 
 To generate a build ready for production:
 
     npm run build
 
-Then deploy the contents of the `dist` directory to your server.  You can also run `npm run serve` to serve the results of the `dist` directory for preview.
+## GeoJSON
+I'm using a different github repo to expose the data currently, there might be more appropriate places to put it. It's a bit too large to be super practical (currently Berlin is over 20mb), which is also why I've only scoped it to Berlin. If you would like to have a different hood feel free to make your own version, or let me know and maybe I have time to add an extra page.
+
+The data is generated (at the time of writing) using the following overpass turbo query:
+
+```
+[out:json][timeout:25];
+area[name="Berlin"];
+(
+  way(area)["highway"~"pedestrian|cycleway"]["smoothness"~"excellent|good"]->.smoothies;
+  way(around.smoothies:5.0)["highway"="crossing"]["smoothness"~"excellent|good"];
+  way(area)["highway"="footway"]["smoothness"="excellent"];
+);
+out geom;
+```
+
+Which is essentially selecting all the pedestrian and bike lanes with good enough smoothness, then every decent crossing that is within 5 meters of those, and finally all the excellent sidewalks/paths. I will probably tweak that over time, suggestions are welcome. 
+
+I left out streets as most of them have great surface, but I don't have a way to filter out the ones you might actually dare skating on.
+
