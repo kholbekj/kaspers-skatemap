@@ -2,6 +2,9 @@
 
 [Check out the Berlin map](https://kaspers-skatemap.surge.sh)
 
+<img width="1009" alt="image" src="https://github.com/kholbekj/kaspers-skatemap/assets/2786571/5e79a354-6246-403f-b3cb-29200730edbe">
+
+
 This is a small static js app that combines data from Stadia Maps, Openstreemap, Openlayers and Overpass to create a simple overlayed map that identifies surfaces that would probably be decent to skate on. It does not constitute legal advice on where roller skating is permissible, safe or appropriate - it's essentially a filter for sidewalks, pedestrian streets, crossings and bike lanes which have decent smoothness. This relies on OSM tagging from users, and shouldn't be regarded as fact.
 
 Development server can be run with
