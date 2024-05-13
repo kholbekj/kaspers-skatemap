@@ -17,9 +17,20 @@ const stadia = new StadiaMaps({
   layer: 'stamen_watercolor',
 });
 
-const vectorLayer = new VectorLayer({
+const goodVectorLayer = new VectorLayer({
   source: new VectorSource({
-    url: "https://raw.githubusercontent.com/kholbekj/skatemap-assets/main/export.geojson",
+    url: "https://raw.githubusercontent.com/kholbekj/skatemap-assets/main/good.geojson",
+    format: new GeoJSON()
+  }),
+  style: {
+    'stroke-color': '#0c7d8a',
+    'stroke-width': 2.1
+  }
+});
+
+const excellentVectorLayer = new VectorLayer({
+  source: new VectorSource({
+    url: "https://raw.githubusercontent.com/kholbekj/skatemap-assets/main/excellent.geojson",
     format: new GeoJSON()
   }),
   style: {
@@ -32,12 +43,14 @@ const layers = cheapMode ? [
   new TileLayer({
     source: new OSM()
   }),
-  vectorLayer
+  goodVectorLayer,
+  excellentVectorLayer
 ] : [
   new TileLayer({
     source: stadia
   }),
-  vectorLayer,
+  goodVectorLayer,
+  excellentVectorLayer,
   new TileLayer({
     source: new StadiaMaps({
       layer: 'stamen_terrain_labels'
