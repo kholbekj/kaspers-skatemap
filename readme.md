@@ -18,20 +18,35 @@ To generate a build ready for production:
 ## GeoJSON
 I'm using a different github repo to expose the data currently, there might be more appropriate places to put it. It's a bit too large to be super practical (currently Berlin is over 20mb), which is also why I've only scoped it to Berlin. If you would like to have a different hood feel free to make your own version, or let me know and maybe I have time to add an extra page.
 
-The data is generated (at the time of writing) using the following overpass turbo query:
+The data is generated (at the time of writing) using the following overpass turbo queries:
 
 ```
 [out:json][timeout:25];
-area[name="Berlin"];
+area[name="Berlin"]->.berlin;
 (
-  way(area)["highway"~"pedestrian|cycleway"]["smoothness"~"excellent|good"]->.smoothies;
-  way(around.smoothies:5.0)["highway"="crossing"]["smoothness"~"excellent|good"];
-  way(area)["highway"="footway"]["smoothness"="excellent"];
+  way(area.berlin)["highway"~"pedestrian|cycleway"]["smoothness"="excellent"]->.smoothies;
+  way(around.smoothies:5.0)["highway"="crossing"]["smoothness"="excellent"];
+  way(area.berlin)["highway"="footway"]["smoothness"="excellent"];
 );
 out geom;
+```
+
+```
+[out:json][timeout:25];
+area[name="Berlin"]->.berlin;
+(
+  way(area.berlin)["highway"~"pedestrian|cycleway"]["smoothness"="good"]->.smoothies;
+  way(around.smoothies:5.0)["highway"="crossing"]["smoothness"~"excellent|good"];
+  way(area.berlin)["highway"="footway"]["smoothness"="good"];
+);
+out geom;
+
 ```
 
 Which is essentially selecting all the pedestrian and bike lanes with good enough smoothness, then every decent crossing that is within 5 meters of those, and finally all the excellent sidewalks/paths. I will probably tweak that over time, suggestions are welcome. 
 
 I left out streets as most of them have great surface, but I don't have a way to filter out the ones you might actually dare skating on.
 
+I use two queries to generate two geometries with different colors. I think there'd be a more efficient way, but I didn't take the time.
+
+Export those as geojson, and host them somewhere, and replace the links to them in the main.js file.
