@@ -6,11 +6,30 @@ html, body {
 }
 #map {
   position: absolute;
-  top: 20px;
+  top: 28px;
   bottom: 0;
   width: 100%;
 }
 #explanation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   background-color: #f3fdfe;
   text-align: center;
+  padding: 4px 16px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.4;
+  z-index: 1000;
+}
+
+@media (max-width: 768px) {
+  #explanation {
+    font-size: 14px;
+    padding: 3px 12px;
+  }
+  #map {
+    top: 40px;
+  }
 }

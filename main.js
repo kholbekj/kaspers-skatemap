@@ -9,7 +9,8 @@ import OSM from 'ol/source/OSM';
 import {Raster as RasterSource, StadiaMaps} from 'ol/source.js';
 import ImageLayer from 'ol/layer/Image';
 
-const cheapMode = true;
+const urlParams = new URLSearchParams(window.location.search);
+const cheapMode = !urlParams.has('fancy') || urlParams.get('fancy') !== 'true';
 
 const center = fromLonLat([13.402842787646158, 52.47313153940888]);
 
